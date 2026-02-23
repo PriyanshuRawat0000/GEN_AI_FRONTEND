@@ -1012,7 +1012,7 @@ function CloneCreateModal({
           form.append("author", userEmail || "S");
           models.forEach((m) => form.append("models", m));
 
-          const res = await fetch("http://127.0.0.1:8000/generate", {
+          const res = await fetch("https://gen-ai-backend-kutx.onrender.com/generate", {
             method: "POST",
             body: form,
           });

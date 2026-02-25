@@ -28,7 +28,6 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
-      // Call server to create user if not exists
       const res = await fetch("/api/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -41,12 +40,7 @@ export default function LoginPage() {
         return;
       }
 
-      //console.log("Login success:", data.user);
-
-      // Store email in localStorage
       localStorage.setItem("userEmail", data.user.email);
-
-      // redirect to dashboard
       window.location.assign("/dashboard");
     } catch (err) {
       console.error("Login error:", err);
@@ -57,32 +51,33 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-background text-[#F8F8F8]">
-      <div className="w-full max-w-md bg-[#0B0B0B] rounded-xl shadow-lg p-8">
+    <main className="min-h-screen flex items-center justify-center bg-[#0e0e0e] text-[#eaeaea]">
+      <div className="w-full max-w-md bg-[#151515] border border-[#222] rounded-lg p-8">
         <div className="mb-6 text-center">
-          <h1 className="text-2xl font-bold tracking-tight text-[#F8F8F8]">
-            Analysing <span className="text-[#4757FF] italic">LLMs</span>
+          <h1 className="text-2xl font-semibold">
+            Prompt<span className="text-[#4f7cff]">Lens</span>
           </h1>
-          <p className="mt-2 text-sm text-muted-foreground">
+          <p className="mt-2 text-sm text-[#9a9a9a]">
             Sign in to continue
           </p>
         </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
+
+        <form onSubmit={handleSubmit} className="space-y-5">
           <div className="space-y-2">
-            <label className="block text-sm font-medium">Email</label>
+            <label className="block text-sm">Email</label>
             <input
               type="email"
               placeholder="you@example.com"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               disabled={loading}
-              className="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary bg-[#1A1A1A] border-border text-[#F8F8F8]"
-              autoFocus 
+              autoFocus
+              className="w-full px-4 py-2 rounded-md bg-[#1e1e1e] border border-[#2a2a2a] text-[#eaeaea] focus:outline-none focus:border-[#4f7cff]"
             />
           </div>
 
           {error && (
-            <div className="flex items-center bg-red-100 text-red-700 px-3 py-2 rounded-md text-sm">
+            <div className="bg-[#2a1a1a] text-[#ff6b6b] px-3 py-2 rounded-md text-sm">
               {error}
             </div>
           )}
@@ -90,7 +85,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-[#4757FF] text-white py-2 rounded-md hover:bg-[#4757FF]/90 disabled:opacity-50"
+            className="w-full bg-[#4f7cff] text-white py-2 rounded-md hover:opacity-90 disabled:opacity-50 transition"
           >
             {loading ? "Logging in..." : "Continue"}
           </button>

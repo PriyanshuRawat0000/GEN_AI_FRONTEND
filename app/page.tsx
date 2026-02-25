@@ -57,7 +57,7 @@ export default function LandingPage() {
             />
 
             <p className="mt-4 text-sm text-[#9a9a9a]">
-              Prompt: <span className="italic">“Kitchen Design 1”</span>
+              Prompt: <span className="italic">“Reimagine the Kitchen”</span>
             </p>
           </div>
 
@@ -74,7 +74,7 @@ export default function LandingPage() {
             />
 
             <p className="mt-4 text-sm text-[#9a9a9a]">
-              Prompt: <span className="italic">“Kitchen Design 2”</span>
+              Prompt: <span className="italic">“Reimagine the Kitchen”</span>
             </p>
           </div>
         </section>

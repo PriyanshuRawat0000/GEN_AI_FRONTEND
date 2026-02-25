@@ -61,7 +61,6 @@ export default function DashboardPage() {
   const router = useRouter();
   const [email, setEmail] = useState<string | null>(null);
   const [comparisons, setComparisons] = useState<Comparison[]>([]);
-
   const [loading, setLoading] = useState(true);
   const [toast, setToast] = useState<string | null>(null);
   const ITEMS_PER_PAGE = 20;
@@ -152,7 +151,7 @@ export default function DashboardPage() {
           {toast}
         </div>
       )}
-
+      
       <header className="mb-12 px-6 pt-10">
         <div className="flex justify-between items-start max-w-6xl mx-auto">
           {/* Text Section */}
@@ -184,6 +183,13 @@ export default function DashboardPage() {
         {/* Outer Container */}
         <div className="flex justify-end mb-3 px-2">
           <div className="flex items-center gap-2 text-sm">
+            <button
+              onClick={() => router.push("/newmodel")}
+              className="px-3 py-1 rounded bg-neutral-800 hover:bg-neutral-700 disabled:opacity-40"
+            >
+              Add New
+            </button>
+           
             <button
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => p - 1)}
@@ -241,8 +247,10 @@ export default function DashboardPage() {
                 ratings={ratingsMap[c._id]}
               />
             ))}
+
           </section>
         </div>
+        
       </div>
     </main>
   );
@@ -251,7 +259,7 @@ export default function DashboardPage() {
 /* =====================
    Comparison Card
 ===================== */
-function renderUploadBox(
+export function renderUploadBox(
   file: File | null,
   setFile: (f: File | null) => void,
   label: string,
@@ -419,64 +427,7 @@ function ComparisonCard({
     setToast(message);
     setTimeout(() => setToast(null), 1500);
   }
-  // useEffect(() => {
-  //   if (!comparison._id || !userEmail) return;
-
-  //   setLoadingRatings(true);
-
-  //   fetch(`/api/ratings?comparisonId=${comparison._id}&userEmail=${userEmail}`)
-  //     .then((res) => res.json())
-  //     .then((data) => {
-  //       setModel1Stars(data.model1);
-  //       setModel2Stars(data.model2);
-  //     })
-  //     .finally(() => setLoadingRatings(false));
-  // }, [comparison._id, userEmail]);
-
-  // useEffect(() => {
-  //   let cancelled = false;
-
-  //   async function resolveImage(
-  //     fullUrl?: string,
-  //     setter?: (v: string) => void,
-  //   ) {
-  //     if (!fullUrl || !setter) return;
-
-  //     try {
-  //       const res = await fetch(
-  //         `/api/image?path=${encodeURIComponent(fullUrl)}`,
-  //       );
-
-  //       const data = await res.json();
-
-  //       if (!res.ok || !data?.url) {
-  //         console.error("Image resolve failed:", data);
-  //         return;
-  //       }
-
-  //       if (!cancelled) {
-  //         setter(data.url);
-  //       }
-  //     } catch (e) {
-  //       console.error("Image fetch error", e);
-  //     }
-  //   }
-  //   if (inputInView) {
-  //     resolveImage(comparison.inputImage, setInputUrl);
-  //   }
-
-  //   if (m1InView) {
-  //     resolveImage(comparison.model1Image, setModel1Url);
-  //   }
-
-  //   if (m2InView) {
-  //     resolveImage(comparison.model2Image, setModel2Url);
-  //   }
-
-  //   return () => {
-  //     cancelled = true;
-  //   };
-  // }, [comparison, inputInView, m1InView, m2InView]);
+  
   useEffect(() => {
     if (inputInView && comparison.inputImage) {
       setInputUrl(comparison.inputImage);
@@ -544,34 +495,7 @@ function ComparisonCard({
     setIsCloneOpen(true);
   }
 
-  // const handleDownload = async (imageUrl?: string) => {
-  //   if (!imageUrl) return;
-
-  //   try {
-  //     const apiUrl = `/api/download-image?path=${encodeURIComponent(imageUrl)}`;
-
-  //     const res = await fetch(apiUrl);
-  //     if (!res.ok) throw new Error("Failed to download image");
-
-  //     const blob = await res.blob();
-  //     const blobUrl = URL.createObjectURL(blob);
-
-  //     const link = document.createElement("a");
-  //     link.href = blobUrl;
-
-  //     const filename = imageUrl.split("/").pop()?.split("?")[0] || "image.png";
-
-  //     link.download = filename;
-
-  //     document.body.appendChild(link);
-  //     link.click();
-  //     link.remove();
-
-  //     URL.revokeObjectURL(blobUrl);
-  //   } catch (err) {
-  //     console.error("Download failed:", err);
-  //   }
-  // };
+  
   const handleDownload = (imageUrl?: string) => {
     if (!imageUrl) return;
 
@@ -803,7 +727,7 @@ function ComparisonCard({
               </button>
             </div>
 
-            {/* Scrollable prompt body */}
+            {/* scrollable prompt */}
             <div className="px-3 overflow-auto max-h-180 sleek-scrollbar">
               <p className="text-md whitespace-pre-wrap leading-relaxed">
                 {comparison.prompt.trim()}
@@ -855,6 +779,7 @@ function ComparisonCard({
           </div>
         </div>
       )}
+      
       {isCloneOpen && (
         <CloneCreateModal
           prompt={clonePrompt}
@@ -876,6 +801,7 @@ type PromptJob = {
   model1Image: string | null;
   model2Image: string | null;
 };
+
 
 function CloneCreateModal({
   prompt,
@@ -906,92 +832,7 @@ function CloneCreateModal({
   const [model1Image, setModel1Image] = useState<string | null>(null);
   const [model2Image, setModel2Image] = useState<string | null>(null);
   const [mongoId, setMongoId] = useState<string | null>(null);
-  // async function resolveImage(fullUrl: string, setter: (url: string) => void) {
-  //   try {
-  //     const res = await fetch(`/api/image?path=${encodeURIComponent(fullUrl)}`);
-
-  //     const data = await res.json();
-
-  //     if (!res.ok || !data?.url) {
-  //       console.error("Image resolve failed:", data);
-  //       return;
-  //     }
-
-  //     setter(data.url);
-  //   } catch (e) {
-  //     console.error("Image fetch error", e);
-  //   }
-  // }
-  // async function handleGenerate() {
-  //   // //console.log("GENERATE CLICKED");
-
-  //   if (!inputImage) return alert("Input image required");
-
-  //   const models: string[] = [];
-  //   if (useModel1) models.push("gemini-2.5-flash-image");
-  //   if (useModel2) models.push("gemini-3-pro-image-preview");
-  //   if (!models.length) return alert("Select at least one model");
-
-  //   setLoading(true); // 🔥 GLOBAL START
-
-  //   try {
-  //     const tasks = jobs
-  //       .filter((job) => job.prompt.trim())
-  //       .map(async (job) => {
-  //         const form = new FormData();
-  //         form.append("image", inputImage);
-  //         form.append("prompt", job.prompt);
-  //         form.append("author", userEmail || "S");
-  //         models.forEach((m) => form.append("models", m));
-
-  //         const res = await fetch("http://127.0.0.1:8000/generate", {
-  //           method: "POST",
-  //           body: form,
-  //         });
-
-  //         if (!res.ok) throw new Error(await res.text());
-
-  //         const data: {
-  //           mongoId: string;
-  //           model1?: string;
-  //           model2?: string;
-  //         } = await res.json();
-
-  //         // if (data.model1) {
-  //         //   await resolveImage(data.model1, (url) =>
-  //         //     setJobs((all) =>
-  //         //       all.map((j) =>
-  //         //         j.id === job.id ? { ...j, model1Image: url } : j,
-  //         //       ),
-  //         //     ),
-  //         //   );
-  //         // }
-
-  //         // if (data.model2) {
-  //         //   await resolveImage(data.model2, (url) =>
-  //         //     setJobs((all) =>
-  //         //       all.map((j) =>
-  //         //         j.id === job.id ? { ...j, model2Image: url } : j,
-  //         //       ),
-  //         //     ),
-  //         //   );
-  //         // }
-
-  //         setJobs((all) =>
-  //           all.map((j) =>
-  //             j.id === job.id ? { ...j, mongoId: data.mongoId } : j,
-  //           ),
-  //         );
-  //       });
-
-  //     await Promise.all(tasks); // 🔒 wait for ALL prompts
-  //   } catch (e) {
-  //     console.error("Generation failed", e);
-  //     alert("Generation failed. Check console.");
-  //   } finally {
-  //     setLoading(false); // 🔥 GLOBAL END
-  //   }
-  // }
+  
   async function handleGenerate() {
     if (!inputImage) return alert("Input image required");
 
@@ -1025,7 +866,7 @@ function CloneCreateModal({
             model2?: string;
           } = await res.json();
 
-          // ✅ Directly use Cloudinary public URLs
+          
           setJobs((all) =>
             all.map((j) =>
               j.id === job.id
@@ -1117,7 +958,7 @@ function CloneCreateModal({
                 key={job.id}
                 className="border border-neutral-700 rounded-lg p-4 space-y-4 bg-[#111]"
               >
-                {/* Prompt header */}
+                
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-semibold text-gray-300">
                     Prompt {idx + 1}
@@ -1135,7 +976,7 @@ function CloneCreateModal({
                   )}
                 </div>
 
-                {/* Prompt textarea */}
+                {/*textarea */}
                 <textarea
                   value={job.prompt}
                   onChange={(e) =>
@@ -1220,7 +1061,7 @@ function CloneCreateModal({
     </div>
   );
 }
-function GeneratedModel({
+export function GeneratedModel({
   label,
   disabled,
   imageUrl,
@@ -1276,17 +1117,17 @@ function GeneratedModel({
         )}
       </div>
 
-      {/* ======================== */}
-      {/*        MODAL UI         */}
-      {/* ======================== */}
+     
+      {/*ui */}
+      
       {open && (
         <div
           className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
-          onClick={() => setOpen(false)} // click outside closes modal
+          onClick={() => setOpen(false)} // modal close
         >
           <div
             className="bg-[#121212] border border-neutral-700 rounded-lg p-4 max-w-4xl w-full shadow-xl"
-            onClick={(e) => e.stopPropagation()} // prevent close when clicking content
+            onClick={(e) => e.stopPropagation()} // prevent close when content is clicked
           >
             {/* Large Image */}
             <img
@@ -1295,7 +1136,7 @@ function GeneratedModel({
               className="w-full max-h-[80vh] object-contain rounded"
             />
 
-            {/* Close Button */}
+            
             <div className="mt-4 flex justify-end">
               <button
                 className="px-4 py-2 text-sm bg-neutral-800 hover:bg-neutral-700 rounded transition border border-neutral-600"
@@ -1311,9 +1152,7 @@ function GeneratedModel({
   );
 }
 
-/* =====================
-   Rating Block
-===================== */
+/* ratingblock*/
 
 function RatingBlock({
   comparisonId,
@@ -1342,7 +1181,7 @@ function RatingBlock({
   // Clear all stars
   const clear = () => setStars(Array(6).fill(0));
 
-  // Save stars to server
+  
   const save = async () => {
     try {
       setSaving(true);
@@ -1352,7 +1191,7 @@ function RatingBlock({
         body: JSON.stringify({ comparisonId, userEmail, model, stars }),
       });
       if (!res.ok) throw new Error("Failed to save");
-      // alert("Rating saved!");
+      
       showToast("Rating saved");
       onSaved?.();
     } catch (err) {
@@ -1415,9 +1254,7 @@ function RatingBlock({
   );
 }
 
-/* =====================
-   Stars
-===================== */
+/* Stars*/
 
 function StarRow({
   value,
@@ -1441,3 +1278,5 @@ function StarRow({
     </div>
   );
 }
+
+

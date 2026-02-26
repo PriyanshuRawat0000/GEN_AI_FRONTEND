@@ -53,7 +53,7 @@ export default function ImageComparison({
 
   return (
     <Card className="overflow-hidden">
-      {/* Prompt Section */}
+      
       <div className="bg-muted p-6 border-b border-border">
         <h3 className="text-sm font-semibold mb-2 text-muted-foreground">Prompt</h3>
         <p className="text-base text-foreground">{image.prompt}</p>

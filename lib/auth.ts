@@ -1,10 +1,6 @@
 "use server"
-
 import jwt from "jsonwebtoken"
-
 const JWT_EXPIRY = "7d"
-
-
 function getJwtSecret(): string {
   const secret = process.env.JWT_SECRET
   if (!secret) {

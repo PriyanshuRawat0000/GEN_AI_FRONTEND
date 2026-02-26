@@ -5,20 +5,18 @@ import { useRouter } from "next/navigation";
 import { useInView } from "react-intersection-observer";
 import { Download } from "lucide-react";
 
-/* =====================
-   Types
-===================== */
+
 
 interface Comparison {
   _id: string;
   prompt: string;
   author: string;
-  inputImage?: string; // Input image URL
-  model1Image?: string; // Model 1 output URL
-  model1Ratings?: number[]; // Ratings array
-  model2Image?: string; // Model 2 output URL
-  model2Ratings?: number[]; // Ratings array
-  // any other existing fields
+  inputImage?: string; 
+  model1Image?: string;
+  model1Ratings?: number[]; 
+  model2Image?: string; 
+  model2Ratings?: number[]; 
+  
 }
 
 type Rating = {
@@ -26,9 +24,7 @@ type Rating = {
   stars: number[];
 };
 
-/* =====================
-   Constants
-===================== */
+
 
 const FACTORS = [
   "Prompt adherence",
@@ -39,9 +35,6 @@ const FACTORS = [
   "Creativity",
 ];
 
-/* =====================
-   Page
-===================== */
 
 export default function DashboardPage() {
   const [ratingsMap, setRatingsMap] = useState<{
@@ -105,7 +98,7 @@ export default function DashboardPage() {
     setTimeout(() => setToast(null), 1500);
   }
 
-  /* 🔐 Auth */
+  /*Auth */
   useEffect(() => {
     const e = localStorage.getItem("userEmail");
     if (!e) {
@@ -145,7 +138,7 @@ export default function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-[#030303] text-white">
-      {/* Header */}
+      
       {toast && (
         <div className="fixed bottom-6 right-6 bg-black text-white text-sm px-4 py-2 rounded shadow-lg border border-neutral-700 z-50">
           {toast}
@@ -154,7 +147,7 @@ export default function DashboardPage() {
       
       <header className="mb-12 px-6 pt-10">
         <div className="flex justify-between items-start max-w-6xl mx-auto">
-          {/* Text Section */}
+          {/* text area*/}
           <div className="space-y-6">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-balance">
               Analyze LLM{" "}
@@ -168,7 +161,7 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          {/* Logout Button */}
+          
           <div>
             <button
               onClick={logout}
@@ -180,7 +173,7 @@ export default function DashboardPage() {
         </div>
       </header>
       <div className="w-[95%] mx-auto px-6">
-        {/* Outer Container */}
+    
         <div className="flex justify-end mb-3 px-2">
           <div className="flex items-center gap-2 text-sm">
             <button
@@ -225,7 +218,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="rounded-xl border border-neutral-800 bg-[#0a0a0a] overflow-hidden">
-          {/* Table Header */}
+          
           <div className="grid grid-cols-4 bg-[#111111] border-b border-neutral-800 text-sm font-semibold text-neutral-300">
             <div className="px-4 py-3 capitalize">Input</div>
             <div className="px-4 py-3 capitalize">gemini-2.5-flash-image</div>
@@ -235,7 +228,7 @@ export default function DashboardPage() {
             <div className="px-4 py-3 capitalize">Prompt</div>
           </div>
 
-          {/* Comparisons */}
+       
 
           <section className="divide-y divide-neutral-800">
             {paginatedComparisons.map((c) => (
@@ -256,9 +249,7 @@ export default function DashboardPage() {
   );
 }
 
-/* =====================
-   Comparison Card
-===================== */
+
 export function renderUploadBox(
   file: File | null,
   setFile: (f: File | null) => void,
@@ -301,7 +292,7 @@ export function renderUploadBox(
 async function fetchInputImageFile(path: string): Promise<File> {
   if (!path) throw new Error("No path provided");
 
-  // If it's a full URL (cloudinary or any http(s) URL), fetch directly.
+ 
   const isRemoteUrl = /^https?:\/\//i.test(path);
   const fetchUrl = isRemoteUrl
     ? path
@@ -309,14 +300,14 @@ async function fetchInputImageFile(path: string): Promise<File> {
 
   const res = await fetch(fetchUrl);
   if (!res.ok) {
-    // include response text for debugging
+  
     const txt = await res.text().catch(() => "");
     throw new Error(`Image fetch failed: ${res.status} ${res.statusText} ${txt}`);
   }
 
   const blob = await res.blob();
 
-  // Derive a sensible filename from the path if possible
+  
   let filename = "cloned-input.png";
   try {
     if (isRemoteUrl) {
@@ -324,12 +315,12 @@ async function fetchInputImageFile(path: string): Promise<File> {
       const last = u.pathname.split("/").filter(Boolean).pop();
       if (last) filename = last.split("?")[0];
     } else {
-      // if path is a DB key like "inputs/input_20250....png"
+     
       const last = path.split("/").filter(Boolean).pop();
       if (last) filename = last.split("?")[0];
     }
   } catch (e) {
-    /* ignore and use default filename */
+    
   }
 
   const fileType = blob.type || "image/png";
@@ -396,7 +387,7 @@ function ComparisonCard({
     image2?: number[] | null;
     count?: { image1: number; image2: number };
   }>({});
-  // Lazy-load triggers
+
   const { ref: inputRef, inView: inputInView } = useInView({
     triggerOnce: true,
     rootMargin: "200px",
@@ -479,16 +470,13 @@ function ComparisonCard({
 
     if (comparison.inputImage) {
       try {
-        // If the DB contains a Cloudinary public URL, this will fetch it directly.
+        
         const file = await fetchInputImageFile(comparison.inputImage);
         setCloneInputImageFile(file);
       } catch (e) {
         console.error("Failed to fetch input image for clone:", e);
 
-        // Optional fallback: if we can't create a File (CORS), keep the URL so the modal
-        // can still display the image (you'll need to modify CloneCreateModal to accept
-        // inputImageUrl if you want that behaviour).
-        // setCloneInputImageUrl?.(comparison.inputImage);
+     
       }
     }
 
@@ -519,7 +507,7 @@ function ComparisonCard({
         )}
 
         <div className="min-w-250 grid grid-cols-4 gap-4">
-          {/* Input Image */}
+          
           <div className="flex flex-col items-center">
             <div
               ref={inputRef}
@@ -549,7 +537,7 @@ function ComparisonCard({
             </div>
           </div>
 
-          {/* Model 1 */}
+          {/* M1 */}
           <div className="flex flex-col items-center">
             <div
               ref={m1Ref}
@@ -622,7 +610,7 @@ function ComparisonCard({
             )}
           </div>
 
-          {/* Model 2 */}
+          {/* M2 */}
           <div className="flex flex-col items-center">
             <div
               ref={m2Ref}
@@ -695,12 +683,12 @@ function ComparisonCard({
             )}
           </div>
 
-          {/* Prompt */}
+          
           <div
             className="bg-[#191919] rounded cursor-pointer"
             onClick={() => openModal(comparison.prompt, true)}
           >
-            {/* Sticky action bar */}
+            
             <div className="sticky top-0 z-10 flex justify-end gap-2 bg-[#191919] p-2 border-b border-neutral-700">
               <p className="mr-auto max-w-20 truncate">
                 {comparison.author?.split("@")[0]}
@@ -727,7 +715,7 @@ function ComparisonCard({
               </button>
             </div>
 
-            {/* scrollable prompt */}
+           
             <div className="px-3 overflow-auto max-h-180 sleek-scrollbar">
               <p className="text-md whitespace-pre-wrap leading-relaxed">
                 {comparison.prompt.trim()}
@@ -737,7 +725,7 @@ function ComparisonCard({
         </div>
       </div>
 
-      {/* Modal */}
+      
       {modalContent && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
@@ -909,7 +897,7 @@ function CloneCreateModal({
       <div className="absolute inset-0" onClick={onClose} />
 
       <div className="relative z-10 w-[95vw] h-[95vh] max-w-7xl bg-[#0b0b0b] border border-neutral-700 rounded-lg flex flex-col">
-        {/* Header */}
+        
         <div className="flex justify-between items-center px-6 py-4 border-b border-neutral-700">
           <h2 className="text-xl font-semibold text-white">
             Create Image Comparison
@@ -919,9 +907,9 @@ function CloneCreateModal({
           </button>
         </div>
 
-        {/* Body */}
+       
         <div className="flex-1 overflow-auto p-6 sleek-scrollbar space-y-6">
-          {/* Model selection */}
+          {/* selection part */}
           <div className="flex gap-6 text-sm text-gray-300">
             {<label className="flex items-center gap-2">
               <input
@@ -942,7 +930,6 @@ function CloneCreateModal({
             </label>
           </div>
 
-          {/* Input Image */}
           <div className="max-w-md mx-auto">
             {renderUploadBox(
               inputImage,
@@ -951,7 +938,7 @@ function CloneCreateModal({
             )}
           </div>
 
-          {/* Prompts */}
+          
           <div className="space-y-8">
             {jobs.map((job, idx) => (
               <div
@@ -976,7 +963,7 @@ function CloneCreateModal({
                   )}
                 </div>
 
-                {/*textarea */}
+                
                 <textarea
                   value={job.prompt}
                   onChange={(e) =>
@@ -990,7 +977,7 @@ function CloneCreateModal({
                   className="w-full min-h-70 bg-[#0b0b0b] p-4 text-sm resize-y outline-none text-white border border-neutral-700 rounded"
                 />
 
-                {/* Outputs */}
+                
                 <div className="grid grid-cols-2 gap-4">
                   <GeneratedModel
                     label="gemini-2.5-flash-image"
@@ -1015,7 +1002,7 @@ function CloneCreateModal({
               </div>
             ))}
 
-            {/* Add prompt */}
+            {/* add prompt */}
             {jobs.length < 2 && (
               <button
                 className="text-xs px-3 py-2 border border-neutral-600 rounded hover:bg-neutral-800 text-gray-300 w-fit"
@@ -1039,7 +1026,7 @@ function CloneCreateModal({
           </div>
         </div>
 
-        {/* Footer */}
+        {/* fooetr */}
         <div className="flex justify-end gap-3 px-6 py-4 border-t border-neutral-700">
           <button
             onClick={onClose}
@@ -1083,12 +1070,12 @@ export function GeneratedModel({
   return (
     <>
       <div className="bg-[#191919] rounded border border-neutral-700 flex flex-col">
-        {/* Header */}
+        
         <div className="px-3 py-2 text-xs text-gray-400 border-b border-neutral-700">
           {label}
         </div>
 
-        {/* Image Area */}
+        
         <div className="flex-1 flex items-center justify-center p-3">
           {disabled ? (
             <div className="text-xs text-gray-500">Model disabled</div>
@@ -1104,7 +1091,7 @@ export function GeneratedModel({
           )}
         </div>
 
-        {/* Rating */}
+        
         {!disabled && imageUrl && (
           <div className="border-t border-neutral-700 px-3 py-2">
             <RatingBlock
@@ -1129,7 +1116,7 @@ export function GeneratedModel({
             className="bg-[#121212] border border-neutral-700 rounded-lg p-4 max-w-4xl w-full shadow-xl"
             onClick={(e) => e.stopPropagation()} // prevent close when content is clicked
           >
-            {/* Large Image */}
+            
             <img
               src={imageUrl!}
               alt="Preview Large"
@@ -1152,7 +1139,7 @@ export function GeneratedModel({
   );
 }
 
-/* ratingblock*/
+
 
 function RatingBlock({
   comparisonId,
@@ -1178,7 +1165,7 @@ function RatingBlock({
     setTimeout(() => setToast(null), 1500);
   }
 
-  // Clear all stars
+  // clear all stars
   const clear = () => setStars(Array(6).fill(0));
 
   
@@ -1254,7 +1241,6 @@ function RatingBlock({
   );
 }
 
-/* Stars*/
 
 function StarRow({
   value,

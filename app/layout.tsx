@@ -7,10 +7,9 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "AnalyzeLLM",
+  title: "PromptLens",
   description:
     "Track, compare, and version your prompts across multiple models. Built for teams shipping high-quality AI features.",
-  generator: "AnalyzeLLM",
   icons: {
     icon: [
       { url: "/favicon.ico" },

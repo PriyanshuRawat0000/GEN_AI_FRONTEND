@@ -1,5 +1,3 @@
-// Rating factor definitions and utilities
-
 export const RATING_FACTORS = [
   { id: 0, label: "Prompt Adherence" },
   { id: 1, label: "Visual Realism" },

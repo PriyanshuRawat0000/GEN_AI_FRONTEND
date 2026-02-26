@@ -1,16 +1,6 @@
-// lib/db.ts
-// MongoDB connection + all DB operations (users, images, ratings)
-
 import { MongoClient, Db, ObjectId } from "mongodb";
-
-/* =======================
-   CONNECTION (POOL SAFE)
-======================= */
-
 declare global {
-  // eslint-disable-next-line no-var
   var _cachedMongoClient: MongoClient | null;
-  // eslint-disable-next-line no-var
   var _cachedMongoDb: Db | null;
 }
 
@@ -29,7 +19,7 @@ export async function connectToDatabase() {
   if (!uri) throw new Error("MONGODB_URI not defined");
 
   const client = new MongoClient(uri, {
-    maxPoolSize: 5, // you had this — keeping it
+    maxPoolSize: 5,
     minPoolSize: 1,
   });
 
@@ -49,9 +39,7 @@ export async function getDb(): Promise<Db> {
   return db;
 }
 
-/* =======================
-   TYPES
-======================= */
+
 
 export type User = {
   _id: ObjectId;
@@ -81,9 +69,7 @@ export type ImageDoc = {
   updatedAt: Date;
 };
 
-/* =======================
-   USER OPERATIONS
-======================= */
+
 
 export async function createUser(email: string): Promise<User> {
   const db = await getDb();
@@ -111,9 +97,7 @@ export async function getUserById(id: string | ObjectId): Promise<User | null> {
   return db.collection<User>("users").findOne({ _id });
 }
 
-/* =======================
-   IMAGE OPERATIONS
-======================= */
+
 
 export async function createImage(
   inputImage: string,
@@ -162,10 +146,7 @@ export async function getAllImages(): Promise<ImageDoc[]> {
     .toArray();
 }
 
-/* =======================
-   RATING OPERATIONS
-   (CORE LOGIC)
-======================= */
+
 
 export async function getUserRating(
   imageId: string | ObjectId,
@@ -205,7 +186,7 @@ export async function saveRating(
   );
 
   if (existingIndex !== -1) {
-    // Update existing rating
+
     await db.collection<ImageDoc>("images").updateOne(
       { _id: _imageId },
       {
@@ -220,7 +201,7 @@ export async function saveRating(
       },
     );
   } else {
-    // Insert new rating
+
     await db.collection<ImageDoc>("images").updateOne(
       { _id: _imageId },
       {
@@ -230,7 +211,7 @@ export async function saveRating(
             stars,
             ratedAt: now,
           },
-        } as any, // MongoDB TS typing limitation (intentional)
+        } as any,
         $set: { updatedAt: now },
       },
     );
@@ -238,10 +219,6 @@ export async function saveRating(
 
   return getImage(_imageId);
 }
-
-/* =======================
-   AVERAGE RATING (SERVER)
-======================= */
 
 export function getAverageRating(
   ratings: Rating[],

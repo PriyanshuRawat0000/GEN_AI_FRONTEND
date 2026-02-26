@@ -41,7 +41,7 @@ export default function LandingPage() {
           </p>
         </section>
 
-        {/* Comparison Preview */}
+       
         <section className="grid md:grid-cols-2 gap-8 mb-16">
           {/* Model A */}
           <div className="rounded-lg bg-[#151515] p-5 border border-[#222]">
@@ -78,7 +78,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* Value Props */}
+        {/* value props */}
         <section className="grid md:grid-cols-3 gap-10 mb-24">
           <div>
             <h3 className="font-medium mb-2">
@@ -108,7 +108,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        {/* CTA */}
+        
         <section className="text-center">
           <h3 className="text-2xl font-semibold mb-4">
             Try Prompt<span className="text-[#4f7cff]">Lens</span> today

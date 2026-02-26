@@ -116,8 +116,8 @@ export default function CreateNewModal({
     }, [inputImageFile]);
 
     return (
-        <main className="min-h-screen bg-[#050506] text-white py-12">
-            <div className="max-w-6xl mx-auto px-6">
+        <main className="min-h-screen w-full bg-[#050506] text-white py-12">
+            <div className=" mx-auto px-6">
                 <div className="flex items-start justify-between mb-6">
                     <div>
                         <h1 className="text-3xl md:text-4xl font-bold">Create Image Comparison</h1>

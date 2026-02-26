@@ -696,7 +696,7 @@ function ComparisonCard({
             </div>
 
 
-            <div className="px-3 overflow-auto max-h-180 sleek-scrollbar">
+            <div className="px-3 overflow-auto max-h-195 sleek-scrollbar">
               <p className="text-md whitespace-pre-wrap leading-relaxed">
                 {comparison.prompt.trim()}
               </p>

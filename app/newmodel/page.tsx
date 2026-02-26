@@ -180,7 +180,7 @@ export default function CreateNewModal({
                                             value={job.prompt}
                                             onChange={(e) => setJobs(all => all.map(j => j.id === job.id ? { ...j, prompt: e.target.value } : j))}
                                             placeholder={`Enter prompt ${idx + 1}`}
-                                            className="w-full min-h-36 bg-[#060607] p-3 text-sm resize-y outline-none text-white border border-neutral-700 rounded shadow-sm"
+                                            className="w-full min-h-36 bg-[#060607] p-3 text-sm resize-y outline-none text-white border border-neutral-700 rounded shadow-sm sleek-scrollbar"
                                         />
                                     </div>
 

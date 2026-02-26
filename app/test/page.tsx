@@ -18,7 +18,7 @@ export default function CreateComparisonCard() {
 
   const router = useRouter();
 
-  /* 🔐 Auth (temporary, client-only) */
+  
   useEffect(() => {
     const e = localStorage.getItem("userEmail");
     if (!e) {

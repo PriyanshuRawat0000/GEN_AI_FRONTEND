@@ -6,7 +6,7 @@ import { GeneratedModel, renderUploadBox } from "../dashboard/page";
 
 
 type PromptJob = {
-    id: string; // frontend temp id
+    id: string;
     prompt: string;
 
     loading: boolean;
@@ -142,7 +142,7 @@ export default function CreateNewModal({
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                   
+
                     <aside className="md:col-span-1 bg-[#0b0b0b] border border-neutral-800 rounded-lg p-4">
                         <h3 className="text-sm font-semibold text-neutral-300 mb-3">Input Image</h3>
                         <div className="mb-4">

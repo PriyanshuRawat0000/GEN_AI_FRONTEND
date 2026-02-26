@@ -17,19 +17,19 @@ export async function GET(req: NextRequest) {
 
     const fullUrl = decodeURIComponent(encoded);
 
-    // VALID R2 FORMATS
-    const base1 = `${process.env.R2_PUBLIC_BASE}/`; 
+
+    const base1 = `${process.env.R2_PUBLIC_BASE}/`;
     const base2 = `https://${process.env.R2_BUCKET_NAME}.${process.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com/`;
 
     if (!(fullUrl.startsWith(base1) || fullUrl.startsWith(base2))) {
       return new NextResponse("Invalid R2 URL", { status: 400 });
     }
 
-    // Extract path + strip bucket name + strip query
+
     const url = new URL(fullUrl);
     let key = url.pathname.replace(/^\/+/, "").split("?")[0];
 
-    // If URL is bucket-prefixed, remove "<bucket>/"
+
     const bucketPrefix = `${process.env.R2_BUCKET_NAME}/`;
     if (key.startsWith(bucketPrefix)) {
       key = key.slice(bucketPrefix.length);

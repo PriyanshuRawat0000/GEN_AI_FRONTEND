@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   generator: "AnalyzeLLM",
   icons: {
     icon: [
-      { url: "/favicon.ico" }, // 👈 REQUIRED
+      { url: "/favicon.ico" },
     ],
     apple: "/apple-icon.png",
   },

@@ -1,4 +1,4 @@
-// app/api/images/route.ts
+
 import { NextResponse } from "next/server"
 import { connectToDatabase } from "@/lib/db"
 

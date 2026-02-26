@@ -1,4 +1,4 @@
-// app/api/users/by-email/route.ts
+
 import { connectToDatabase } from "@/lib/db";
 import { NextResponse } from "next/server";
 

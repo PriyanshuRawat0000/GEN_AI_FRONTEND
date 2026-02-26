@@ -41,7 +41,7 @@ export default function ImageComparison({
   useEffect(() => {
     if (!userId) return
 
-    // Find user's ratings in the image data
+    
     const userM1Rating = image.model1Ratings.find((r) => r.userId === userId)
     const userM2Rating = image.model2Ratings.find((r) => r.userId === userId)
 

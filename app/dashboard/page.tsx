@@ -11,12 +11,12 @@ interface Comparison {
   _id: string;
   prompt: string;
   author: string;
-  inputImage?: string; 
+  inputImage?: string;
   model1Image?: string;
-  model1Ratings?: number[]; 
-  model2Image?: string; 
-  model2Ratings?: number[]; 
-  
+  model1Ratings?: number[];
+  model2Image?: string;
+  model2Ratings?: number[];
+
 }
 
 type Rating = {
@@ -117,7 +117,7 @@ export default function DashboardPage() {
       const [imagesRes] = await Promise.all([fetch("/api/images")]);
 
       const images = await imagesRes.json();
-      // //console.log("Loaded comparisons:", images);
+
 
       setComparisons(images);
 
@@ -138,7 +138,7 @@ export default function DashboardPage() {
 
   return (
     <main className="min-h-screen bg-[#030303] text-white">
-      
+
       {toast && (
         <div className="fixed bottom-6 right-6 bg-black text-white text-sm px-4 py-2 rounded shadow-lg border border-neutral-700 z-50">
           {toast}
@@ -161,7 +161,7 @@ export default function DashboardPage() {
             </p>
           </div>
 
-          
+
           <div>
             <button
               onClick={logout}
@@ -173,7 +173,7 @@ export default function DashboardPage() {
         </div>
       </header>
       <div className="w-[95%] mx-auto px-6">
-    
+
         <div className="flex justify-end mb-3 px-2">
           <div className="flex items-center gap-2 text-sm">
             <button
@@ -218,7 +218,7 @@ export default function DashboardPage() {
         </div>
 
         <div className="rounded-xl border border-neutral-800 bg-[#0a0a0a] overflow-hidden">
-          
+
           <div className="grid grid-cols-4 bg-[#111111] border-b border-neutral-800 text-sm font-semibold text-neutral-300">
             <div className="px-4 py-3 capitalize">Input</div>
             <div className="px-4 py-3 capitalize">gemini-2.5-flash-image</div>
@@ -228,7 +228,7 @@ export default function DashboardPage() {
             <div className="px-4 py-3 capitalize">Prompt</div>
           </div>
 
-       
+
 
           <section className="divide-y divide-neutral-800">
             {paginatedComparisons.map((c) => (
@@ -281,18 +281,11 @@ export function renderUploadBox(
   );
 }
 
-// async function fetchInputImageFile(path: string) {
-//   const res = await fetch(`/api/image-input?path=${encodeURIComponent(path)}`);
 
-//   if (!res.ok) throw new Error("Image fetch failed");
-
-//   const blob = await res.blob();
-//   return new File([blob], "cloned-input.png", { type: blob.type });
-// }
 async function fetchInputImageFile(path: string): Promise<File> {
   if (!path) throw new Error("No path provided");
 
- 
+
   const isRemoteUrl = /^https?:\/\//i.test(path);
   const fetchUrl = isRemoteUrl
     ? path
@@ -300,14 +293,14 @@ async function fetchInputImageFile(path: string): Promise<File> {
 
   const res = await fetch(fetchUrl);
   if (!res.ok) {
-  
+
     const txt = await res.text().catch(() => "");
     throw new Error(`Image fetch failed: ${res.status} ${res.statusText} ${txt}`);
   }
 
   const blob = await res.blob();
 
-  
+
   let filename = "cloned-input.png";
   try {
     if (isRemoteUrl) {
@@ -315,12 +308,12 @@ async function fetchInputImageFile(path: string): Promise<File> {
       const last = u.pathname.split("/").filter(Boolean).pop();
       if (last) filename = last.split("?")[0];
     } else {
-     
+
       const last = path.split("/").filter(Boolean).pop();
       if (last) filename = last.split("?")[0];
     }
   } catch (e) {
-    
+
   }
 
   const fileType = blob.type || "image/png";
@@ -450,33 +443,20 @@ function ComparisonCard({
     setAvg(data);
   }
 
-  // async function handleCloneOpen() {
-  //   setClonePrompt(comparison.prompt);
 
-  //   if (comparison.inputImage) {
-  //     try {
-  //       const file = await fetchInputImageFile(comparison.inputImage);
-  //       setCloneInputImageFile(file);
-  //     } catch (e) {
-  //       console.error(e);
-  //     }
-  //   }
-
-  //   setIsCloneOpen(true);
-  // }
 
   async function handleCloneOpen() {
     setClonePrompt(comparison.prompt);
 
     if (comparison.inputImage) {
       try {
-        
+
         const file = await fetchInputImageFile(comparison.inputImage);
         setCloneInputImageFile(file);
       } catch (e) {
         console.error("Failed to fetch input image for clone:", e);
 
-     
+
       }
     }
 
@@ -507,7 +487,7 @@ function ComparisonCard({
         )}
 
         <div className="min-w-250 grid grid-cols-4 gap-4">
-          
+
           <div className="flex flex-col items-center">
             <div
               ref={inputRef}
@@ -683,12 +663,12 @@ function ComparisonCard({
             )}
           </div>
 
-          
+
           <div
             className="bg-[#191919] rounded cursor-pointer"
             onClick={() => openModal(comparison.prompt, true)}
           >
-            
+
             <div className="sticky top-0 z-10 flex justify-end gap-2 bg-[#191919] p-2 border-b border-neutral-700">
               <p className="mr-auto max-w-20 truncate">
                 {comparison.author?.split("@")[0]}
@@ -715,7 +695,7 @@ function ComparisonCard({
               </button>
             </div>
 
-           
+
             <div className="px-3 overflow-auto max-h-180 sleek-scrollbar">
               <p className="text-md whitespace-pre-wrap leading-relaxed">
                 {comparison.prompt.trim()}
@@ -725,7 +705,7 @@ function ComparisonCard({
         </div>
       </div>
 
-      
+
       {modalContent && (
         <div
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/70"
@@ -780,7 +760,7 @@ function ComparisonCard({
   );
 }
 type PromptJob = {
-  id: string; // frontend temp id
+  id: string;
   prompt: string;
 
   loading: boolean;
@@ -897,7 +877,7 @@ function CloneCreateModal({
       <div className="absolute inset-0" onClick={onClose} />
 
       <div className="relative z-10 w-[95vw] h-[95vh] max-w-7xl bg-[#0b0b0b] border border-neutral-700 rounded-lg flex flex-col">
-        
+
         <div className="flex justify-between items-center px-6 py-4 border-b border-neutral-700">
           <h2 className="text-xl font-semibold text-white">
             Create Image Comparison
@@ -907,7 +887,7 @@ function CloneCreateModal({
           </button>
         </div>
 
-       
+
         <div className="flex-1 overflow-auto p-6 sleek-scrollbar space-y-6">
           {/* selection part */}
           <div className="flex gap-6 text-sm text-gray-300">
@@ -938,7 +918,7 @@ function CloneCreateModal({
             )}
           </div>
 
-          
+
           <div className="space-y-8">
             {jobs.map((job, idx) => (
               <div
@@ -963,7 +943,7 @@ function CloneCreateModal({
                   )}
                 </div>
 
-                
+
                 <textarea
                   value={job.prompt}
                   onChange={(e) =>
@@ -977,7 +957,7 @@ function CloneCreateModal({
                   className="w-full min-h-70 bg-[#0b0b0b] p-4 text-sm resize-y outline-none text-white border border-neutral-700 rounded"
                 />
 
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <GeneratedModel
                     label="gemini-2.5-flash-image"
@@ -1070,12 +1050,12 @@ export function GeneratedModel({
   return (
     <>
       <div className="bg-[#191919] rounded border border-neutral-700 flex flex-col">
-        
+
         <div className="px-3 py-2 text-xs text-gray-400 border-b border-neutral-700">
           {label}
         </div>
 
-        
+
         <div className="flex-1 flex items-center justify-center p-3">
           {disabled ? (
             <div className="text-xs text-gray-500">Model disabled</div>
@@ -1091,7 +1071,7 @@ export function GeneratedModel({
           )}
         </div>
 
-        
+
         {!disabled && imageUrl && (
           <div className="border-t border-neutral-700 px-3 py-2">
             <RatingBlock
@@ -1110,13 +1090,13 @@ export function GeneratedModel({
       {open && (
         <div
           className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
-          onClick={() => setOpen(false)} // modal close
+          onClick={() => setOpen(false)}
         >
           <div
             className="bg-[#121212] border border-neutral-700 rounded-lg p-4 max-w-4xl w-full shadow-xl"
-            onClick={(e) => e.stopPropagation()} // prevent close when content is clicked
+            onClick={(e) => e.stopPropagation()}
           >
-            
+
             <img
               src={imageUrl!}
               alt="Preview Large"
@@ -1165,7 +1145,7 @@ function RatingBlock({
     setTimeout(() => setToast(null), 1500);
   }
 
-  // clear all stars
+
   const clear = () => setStars(Array(6).fill(0));
 
 

@@ -1,4 +1,4 @@
-// pages/api/image/[key].ts
+
 import { NextApiRequest, NextApiResponse } from "next";
 import { getSignedImageUrl } from "@/lib/r2";
 

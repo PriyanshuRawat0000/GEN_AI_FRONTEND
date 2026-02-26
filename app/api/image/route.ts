@@ -22,17 +22,17 @@ export async function GET(req: NextRequest) {
   try {
     const fullUrl = decodeURIComponent(encodedUrl);
 
-    // SAFETY: ensure it is your R2 base
+
     if (!fullUrl.startsWith(process.env.R2_PUBLIC_BASE!)) {
       return NextResponse.json({ error: "Invalid image URL" }, { status: 400 });
     }
 
     const url = new URL(fullUrl);
 
-    // remove leading slash
+
     let key = url.pathname.replace(/^\/+/, "");
 
-    // 🚨 CRITICAL FIX: remove bucket prefix if present
+
     const bucketPrefix = `${process.env.R2_BUCKET_NAME}/`;
     if (key.startsWith(bucketPrefix)) {
       key = key.slice(bucketPrefix.length);
@@ -40,10 +40,10 @@ export async function GET(req: NextRequest) {
 
     const filename = key.split("/").pop()!;
 
-    // default: input image
+
     let model: string | null = null;
 
-    // only outputs have model info
+
     if (filename.includes("_")) {
       const parts = filename.split("_");
 

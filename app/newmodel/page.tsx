@@ -142,7 +142,7 @@ export default function CreateNewModal({
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                    {/* Left: Upload */}
+                   
                     <aside className="md:col-span-1 bg-[#0b0b0b] border border-neutral-800 rounded-lg p-4">
                         <h3 className="text-sm font-semibold text-neutral-300 mb-3">Input Image</h3>
                         <div className="mb-4">
@@ -164,7 +164,6 @@ export default function CreateNewModal({
                         </div>
                     </aside>
 
-                    {/* Right: Prompts + Outputs */}
                     <section className="md:col-span-2 space-y-6">
                         {jobs.map((job, idx) => (
                             <div key={job.id} className="bg-[#0b0b0b] border border-neutral-800 rounded-lg p-4">

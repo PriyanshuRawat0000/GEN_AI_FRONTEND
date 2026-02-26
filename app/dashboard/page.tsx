@@ -144,14 +144,14 @@ export default function DashboardPage() {
           {toast}
         </div>
       )}
-      
+
       <header className="mb-12 px-6 pt-10">
         <div className="flex justify-between items-start max-w-6xl mx-auto">
           {/* text area*/}
           <div className="space-y-6">
             <h1 className="text-4xl md:text-5xl font-bold tracking-tight text-balance">
-              Analyze LLM{" "}
-              <span className="text-[#4757FF] italic ">Outputs</span> with
+              Prompt<span className="text-[#4f7cff]">Lens</span>{" "}
+              Outputs with
               Precision.
             </h1>
 
@@ -182,7 +182,7 @@ export default function DashboardPage() {
             >
               Add New
             </button>
-           
+
             <button
               disabled={currentPage === 1}
               onClick={() => setCurrentPage((p) => p - 1)}
@@ -243,7 +243,7 @@ export default function DashboardPage() {
 
           </section>
         </div>
-        
+
       </div>
     </main>
   );
@@ -418,7 +418,7 @@ function ComparisonCard({
     setToast(message);
     setTimeout(() => setToast(null), 1500);
   }
-  
+
   useEffect(() => {
     if (inputInView && comparison.inputImage) {
       setInputUrl(comparison.inputImage);
@@ -483,7 +483,7 @@ function ComparisonCard({
     setIsCloneOpen(true);
   }
 
-  
+
   const handleDownload = (imageUrl?: string) => {
     if (!imageUrl) return;
 
@@ -767,7 +767,7 @@ function ComparisonCard({
           </div>
         </div>
       )}
-      
+
       {isCloneOpen && (
         <CloneCreateModal
           prompt={clonePrompt}
@@ -820,7 +820,7 @@ function CloneCreateModal({
   const [model1Image, setModel1Image] = useState<string | null>(null);
   const [model2Image, setModel2Image] = useState<string | null>(null);
   const [mongoId, setMongoId] = useState<string | null>(null);
-  
+
   async function handleGenerate() {
     if (!inputImage) return alert("Input image required");
 
@@ -854,7 +854,7 @@ function CloneCreateModal({
             model2?: string;
           } = await res.json();
 
-          
+
           setJobs((all) =>
             all.map((j) =>
               j.id === job.id
@@ -945,7 +945,7 @@ function CloneCreateModal({
                 key={job.id}
                 className="border border-neutral-700 rounded-lg p-4 space-y-4 bg-[#111]"
               >
-                
+
                 <div className="flex items-center justify-between">
                   <h3 className="text-sm font-semibold text-gray-300">
                     Prompt {idx + 1}
@@ -1104,9 +1104,9 @@ export function GeneratedModel({
         )}
       </div>
 
-     
+
       {/*ui */}
-      
+
       {open && (
         <div
           className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 p-4"
@@ -1123,7 +1123,7 @@ export function GeneratedModel({
               className="w-full max-h-[80vh] object-contain rounded"
             />
 
-            
+
             <div className="mt-4 flex justify-end">
               <button
                 className="px-4 py-2 text-sm bg-neutral-800 hover:bg-neutral-700 rounded transition border border-neutral-600"
@@ -1168,7 +1168,7 @@ function RatingBlock({
   // clear all stars
   const clear = () => setStars(Array(6).fill(0));
 
-  
+
   const save = async () => {
     try {
       setSaving(true);
@@ -1178,7 +1178,7 @@ function RatingBlock({
         body: JSON.stringify({ comparisonId, userEmail, model, stars }),
       });
       if (!res.ok) throw new Error("Failed to save");
-      
+
       showToast("Rating saved");
       onSaved?.();
     } catch (err) {

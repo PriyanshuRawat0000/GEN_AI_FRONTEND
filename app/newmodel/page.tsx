@@ -2,8 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { GeneratedModel, renderUploadBox } from "../dashboard/page";
-
+import GeneratedModel from "@/components/dashboard/generateModel";
+import renderUploadBox  from "@/components/dashboard/renderUploadBox";
 
 type PromptJob = {
     id: string;

@@ -1,4 +1,4 @@
-# LLM Image Comparison Platform - Production Setup Guide
+# PromptLens LLM Image Comparison Platform - Production Setup Guide
 
 This is a fully production-ready LLM image comparison platform with MongoDB integration, Cloudflare R2 image storage, JWT authentication, and strict data isolation.
 

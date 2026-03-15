@@ -65,7 +65,7 @@ export default function CloneCreateModal({
           models.forEach((m) => form.append("models", m));
 
           const res = await fetch(
-            "https://gen-ai-backend-kutx.onrender.com/generate",
+            "http://localhost:3000/generate",
             {
               method: "POST",
               body: form,
